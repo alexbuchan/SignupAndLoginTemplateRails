@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   before_action :authorize_request, except: :create
-  before_action :find_user, except: %i[create index]
 
   # GET /users
   def index
@@ -18,29 +17,28 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      token = JsonWebToken::JsonWebTokenHelper.encode({
-        user: {
-          username: @user.username,
-          email: @user.email
-        },
-        auth: true,
-        message: 'User registered'
-      })
-      render json: { token: token }, status: :created
+      token = encodeToken('User registered.')
+      time = Time.now + 24.hours.to_i
+
+      send_response(token, :created, time)
     else
-      render json: { error: @user.errors.full_messages },
-             status: :unprocessable_entity
+      send_error(:unprocessable_entity)
     end
   end
-  
+
   # PUT /users/{username}
   def update
-    unless @user.update(user_params)
-      render json: { errors: @user.errors.full_messages },
-             status: :unprocessable_entity
+    @user = User.find_by_id(params[:id])
+    if @user.update_attributes(user_params)
+      token = encodeToken('User updated successfully.')
+      time = Time.now + 24.hours.to_i
+
+      send_response(token, :accepted, time)
+    else
+      send_error(:unprocessable_entity)
     end
   end
-  
+
   # DELETE /users/{username}
   def destroy
     @user.destroy
@@ -48,15 +46,35 @@ class UsersController < ApplicationController
 
   private
 
-  def find_user
-    @user = User.find_by_email!(params[:email])
-    rescue ActiveRecord::RecordNotFound
-      render json: { errors: 'User not found' }, status: :not_found
+  def user_params
+    params.permit(:username, :email, :password)
   end
 
-  def user_params
-    params.permit(
-      :username, :email, :password
+  def send_response(token, status, time)
+    render json: {
+      token: token,
+      exp: time.strftime("%m-%d-%Y %H:%M"),
+    }, status: status
+  end
+
+  def send_error(status)
+    render(
+      json: {
+        error: @user.errors.full_messages
+      },
+      status: status
     )
+  end
+
+  def encodeToken(message)
+    JsonWebToken::JsonWebTokenHelper.encode({
+      user: {
+        user_id: @user.id,
+        username: @user.username,
+        email: @user.email
+      },
+      auth: true,
+      message: message
+    })
   end
 end
