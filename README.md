@@ -1,24 +1,25 @@
-# README
+This is a Ruby on Rails API template I wrote with signup, login, and GET /contacts routes that are authenticated with JWT.
+I have a matching repository which contains the frontend here: [SignupAndLoginTemplateUI](https://github.com/alexbuchan/SignupAndLoginTemplate-UI)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This project is meant to help me learn how to write a Ruby on Rails API with authentication, which I can then turn into real applications.
 
-Things you may want to cover:
+# Setup
 
-* Ruby version
+## Download the repository:
 
-* System dependencies
+`git clone git@github.com:alexbuchan/SignupAndLoginTemplateRails.git`
 
-* Configuration
+## Install the dependencies:
 
-* Database creation
+`bundle install`
 
-* Database initialization
+## Setup the database:
 
-* How to run the test suite
+`rake db:create`
+`rake db:migrate`
 
-* Services (job queues, cache servers, search engines, etc.)
+This project uses mysql2 gem as a database. Make sure you have mysql set up and installed on your computer.
 
-* Deployment instructions
+## To run the project:
 
-* ...
+`rails s`
