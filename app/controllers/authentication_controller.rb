@@ -1,5 +1,8 @@
-require 'rest-client'
+# frozen_string_literal: true
 
+require('rest-client')
+
+# AuthenticationController. All routes for now which need authentication will pass through here.
 class AuthenticationController < ApplicationController
   before_action :authorize_request, except: :login
 
@@ -7,23 +10,11 @@ class AuthenticationController < ApplicationController
   def login
     @user = User.find_by_email(params[:email])
     if @user&.authenticate(params[:password])
-      token = token = JsonWebToken::JsonWebTokenHelper.encode({
-        user: {
-          user_id: @user.id,
-          username: @user.username,
-          email: @user.email
-        },
-        auth: true,
-        message: 'User registered'
-      })
-
+      token = encode_token('User logged in.')
       time = Time.now + 24.hours.to_i
-      render json: { 
-        token: token, 
-        exp: time.strftime("%m-%d-%Y %H:%M"),
-      }, status: :ok
+      send_response(token, :ok, time)
     else
-      render json: { error: 'unauthorized' }, status: :unauthorized
+      render(json: { error: 'unauthorized' }, status: :unauthorized)
     end
   end
 
@@ -31,7 +22,7 @@ class AuthenticationController < ApplicationController
   def contacts
     response = RestClient.get('https://jsonplaceholder.typicode.com/users')
     body = JSON.parse(response.body)
-    render json: body, status: :ok
+    render(json: body, status: :ok)
   end
 
   private
