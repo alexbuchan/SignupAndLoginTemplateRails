@@ -1,0 +1,14 @@
+AllCops:
+  EnabledByDefault: true
+
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
+
+Style/DocumentationMethod:
+  Enabled: false
+
+Style/Copyright:
+  Enabled: false
+
+Lint/NumberConversion:
+  Enabled: false
