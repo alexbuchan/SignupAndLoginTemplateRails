@@ -1,6 +1,15 @@
 AllCops:
   EnabledByDefault: true
 
+Bundler/GemComment:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'Rakefile'
+    - '**/*.rake'
+    - 'spec/**/*.rb'
+
 Layout/FirstHashElementIndentation:
   EnforcedStyle: consistent
 
@@ -8,6 +17,12 @@ Style/DocumentationMethod:
   Enabled: false
 
 Style/Copyright:
+  Enabled: false
+
+Style/MethodCallWithArgsParentheses:
+  Enabled: false
+
+Style/SymbolArray:
   Enabled: false
 
 Lint/NumberConversion:
