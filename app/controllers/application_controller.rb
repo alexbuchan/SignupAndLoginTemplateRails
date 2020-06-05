@@ -2,6 +2,10 @@
 
 # ApplicationController
 class ApplicationController < ActionController::API
+  def home
+    render(html: 'Welcome to the SignupAndLoginTemplate Rails App.')
+  end
+
   def not_found
     render(json: { error: 'not_found' })
   end
