@@ -28,7 +28,7 @@ gem 'rest-client'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
-gem "rack-cors", ">= 1.0.4"
+gem 'rack-cors', '>= 1.0.4'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -36,6 +36,7 @@ group :development, :test do
   gem 'pry'
   gem 'pry-nav'
   gem 'rspec-rails', '~> 4.0.0'
+  gem 'simplecov'
 end
 
 group :development do
