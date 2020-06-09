@@ -15,7 +15,7 @@ class ApplicationController < ActionController::API
     header = header.split(' ').last if header
     begin
       @decoded = JsonWebToken::JsonWebTokenHelper.decode(header)
-      @current_user = User.find(@decoded[:user][:user_id])
+      @current_user = User.find(@decoded[:id])
     rescue ActiveRecord::RecordNotFound => e
       render(json: { error: e.message }, status: :unauthorized)
 
@@ -46,7 +46,7 @@ class ApplicationController < ActionController::API
   def encode_token(message)
     JsonWebToken::JsonWebTokenHelper.encode({
       user: {
-        user_id: @user.id,
+        id: @user.id,
         username: @user.username,
         email: @user.email
       },

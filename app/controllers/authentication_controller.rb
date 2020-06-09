@@ -8,8 +8,8 @@ class AuthenticationController < ApplicationController
 
   # POST /auth/login
   def login
-    @user = User.find_by_email(params[:email])
-    if @user&.authenticate(params[:password])
+    @user = User.find_by_email(login_params[:email])
+    if @user&.authenticate(login_params[:password])
       token = encode_token('User logged in.')
       time = Time.now + 24.hours.to_i
       send_response(token, :ok, time)
@@ -28,6 +28,6 @@ class AuthenticationController < ApplicationController
   private
 
   def login_params
-    params.permit(:email, :password)
+    params.require(:user).permit(:email, :password)
   end
 end
