@@ -13,6 +13,9 @@ Metrics/BlockLength:
 Layout/FirstHashElementIndentation:
   EnforcedStyle: consistent
 
+Layout/FirstArrayElementIndentation:
+  EnforcedStyle: consistent
+
 Style/DocumentationMethod:
   Enabled: false
 
