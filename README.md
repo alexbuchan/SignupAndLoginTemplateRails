@@ -23,3 +23,7 @@ This project uses mysql2 gem as a database. Make sure you have mysql set up and 
 ## To run the project:
 
 `rails s`
+
+## To run the tests:
+
+`rspec spec/`
