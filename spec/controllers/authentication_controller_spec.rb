@@ -32,9 +32,9 @@ describe AuthenticationController, type: :controller do
 
   describe 'GET contacts' do
     let(:response_body) { JSON.parse(response.body) }
+    let(:token) { JsonWebToken::JsonWebTokenHelper.encode({ user: attr }) }
 
     context 'when user requests contacts with valid jwt' do
-      let(:token) { JsonWebToken::JsonWebTokenHelper.encode(attr) }
       let(:headers) { { 'Authorization': "Bearer #{token}" } }
 
       it 'sends json response with jwt' do
@@ -49,7 +49,6 @@ describe AuthenticationController, type: :controller do
 
     context 'when user requests contacts with invalid credentials' do
       let(:attr) { { id: 1, username: 'user', email: 'email.com', password: 'pass' } }
-      let(:token) { JsonWebToken::JsonWebTokenHelper.encode(attr) }
       let(:headers) { { 'Authorization': "Bearer #{token}" } }
 
       it 'sends json error response with status unauthorized' do

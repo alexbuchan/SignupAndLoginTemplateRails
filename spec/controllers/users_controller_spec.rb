@@ -34,7 +34,7 @@ describe UsersController, type: :controller do
   describe 'PUT update' do
     let(:attr) { { username: 'username', email: 'user@email.com', password: 'password' } }
     let(:user) { User.create(attr) }
-    let(:token) { JsonWebToken::JsonWebTokenHelper.encode(new_attr) }
+    let(:token) { JsonWebToken::JsonWebTokenHelper.encode({ user: new_attr }) }
     let(:headers) { { 'Authorization': "Bearer #{token}" } }
 
     before :each do
